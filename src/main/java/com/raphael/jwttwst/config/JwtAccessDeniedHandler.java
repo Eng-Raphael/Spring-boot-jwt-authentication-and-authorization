@@ -1,7 +1,7 @@
 package com.raphael.jwttwst.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.raphael.jwttwst.exception.ApiResponse;
+import com.raphael.jwttwst.utils.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.raphael.jwttwst.exception;
+package com.raphael.jwttwst.utils;
 
 
 import lombok.Data;

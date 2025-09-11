@@ -2,7 +2,7 @@ package com.raphael.jwttwst.controller;
 
 
 import com.raphael.jwttwst.entity.User;
-import com.raphael.jwttwst.exception.ApiResponse;
+import com.raphael.jwttwst.utils.ApiResponse;
 import com.raphael.jwttwst.exception.InvalidCredentialsException;
 import com.raphael.jwttwst.exception.UserAlreadyExistsException;
 import com.raphael.jwttwst.service.JwtService;
