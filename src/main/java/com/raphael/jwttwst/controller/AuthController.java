@@ -7,15 +7,14 @@ import com.raphael.jwttwst.exception.InvalidCredentialsException;
 import com.raphael.jwttwst.exception.UserAlreadyExistsException;
 import com.raphael.jwttwst.service.JwtService;
 import com.raphael.jwttwst.service.UserService;
+import com.raphael.jwttwst.utils.AppConstants;
+import com.raphael.jwttwst.utils.PagedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
@@ -67,8 +66,12 @@ public class AuthController {
 
     @GetMapping("admin/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ApiResponse<Iterable<User>> getAllUsers() {
-        return new ApiResponse<>("Success", userService.getAllUsers(), "200");
+    public ApiResponse<PagedResponse<User>> getAllUsers(
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size
+    ) {
+        PagedResponse<User> pagedUsers = userService.getAllUsers(page, size);
+        return new ApiResponse<>("Success", pagedUsers, "200");
     }
 
 }
