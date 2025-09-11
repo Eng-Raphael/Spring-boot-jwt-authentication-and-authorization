@@ -30,11 +30,11 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @PostMapping("register")
-    public User register(@RequestBody User user) {
+    public ApiResponse<User> register(@RequestBody User user) {
         if(userService.checkIfUserExsists(user.getUsername())){
             throw new UserAlreadyExistsException("User Already Exists");
         }
-        return userService.saveUser(user);
+        return new ApiResponse<>("register success", userService.saveUser(user), "200");
     }
 
     @PostMapping("login")
