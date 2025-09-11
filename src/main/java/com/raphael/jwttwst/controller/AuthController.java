@@ -65,4 +65,10 @@ public class AuthController {
         return new ApiResponse<>("Success", "Welcome to JWT Authentication ADMIN", "200");
     }
 
+    @GetMapping("admin/users")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ApiResponse<Iterable<User>> getAllUsers() {
+        return new ApiResponse<>("Success", userService.getAllUsers(), "200");
+    }
+
 }

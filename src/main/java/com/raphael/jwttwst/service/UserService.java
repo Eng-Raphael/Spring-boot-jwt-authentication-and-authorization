@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -26,6 +28,10 @@ public class UserService {
 
     public boolean checkIfUserExsists(String username){
         return userRepo.existsByUsername(username);
+    }
+
+    public List<User> getAllUsers(){
+        return userRepo.findAll();
     }
 
 }
