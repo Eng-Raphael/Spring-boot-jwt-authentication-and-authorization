@@ -2,6 +2,7 @@ package com.raphael.jwttwst.controller;
 
 
 import com.raphael.jwttwst.entity.User;
+import com.raphael.jwttwst.exception.ApiResponse;
 import com.raphael.jwttwst.exception.InvalidCredentialsException;
 import com.raphael.jwttwst.exception.UserAlreadyExistsException;
 import com.raphael.jwttwst.service.JwtService;
@@ -37,27 +38,31 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public String login(@RequestBody User user){
+    public ApiResponse<String> login(@RequestBody User user){
 
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
-        if(authentication.isAuthenticated())
-            return jwtService.generateToken(user.getUsername());
-        else
+        if(authentication.isAuthenticated()) {
+            String token = jwtService.generateToken(user.getUsername());
+            return new ApiResponse<>("Login success", token, "200");
+        }
+        else {
             throw new InvalidCredentialsException("Invalid username or password");
+        }
     }
 
     @GetMapping("user/welcome")
     @PreAuthorize("hasRole('USER')")
-    public String welcome() {
-        return "Welcome to JWT Authentication USER";
+    public ApiResponse<String> welcome() {
+        return new ApiResponse<>("Success", "Welcome to JWT Authentication USER", "200");
+
     }
 
     @GetMapping("admin/welcome")
     @PreAuthorize("hasRole('ADMIN')")
-    public String adminWelcome() {
-        return "Welcome to JWT Authentication ADMIN";
+    public ApiResponse<String> adminWelcome() {
+        return new ApiResponse<>("Success", "Welcome to JWT Authentication ADMIN", "200");
     }
 
 }
