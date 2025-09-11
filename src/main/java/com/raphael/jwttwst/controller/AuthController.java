@@ -2,6 +2,8 @@ package com.raphael.jwttwst.controller;
 
 
 import com.raphael.jwttwst.entity.User;
+import com.raphael.jwttwst.exception.InvalidCredentialsException;
+import com.raphael.jwttwst.exception.UserAlreadyExistsException;
 import com.raphael.jwttwst.service.JwtService;
 import com.raphael.jwttwst.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class AuthController {
 
     @PostMapping("register")
     public User register(@RequestBody User user) {
+        if(userService.checkIfUserExsists(user.getUsername())){
+            throw new UserAlreadyExistsException("User Already Exists");
+        }
         return userService.saveUser(user);
     }
 
@@ -40,8 +45,7 @@ public class AuthController {
         if(authentication.isAuthenticated())
             return jwtService.generateToken(user.getUsername());
         else
-            return "Login Failed";
-
+            throw new InvalidCredentialsException("Invalid username or password");
     }
 
     @GetMapping("user/welcome")
